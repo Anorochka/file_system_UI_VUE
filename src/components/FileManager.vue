@@ -22,12 +22,15 @@ const search = ref('')
 const typeFilter = ref('')
 const darkMode = ref(false)
 const viewMode = ref('cards')
+
+/* ===== form styles ===== */
 const formClass = computed(() =>
   darkMode.value
     ? 'bg-gray-700 text-gray-100 border-gray-600'
     : 'bg-white text-gray-900 border-gray-300'
 )
 
+/* ===== filtering ===== */
 const fileTypes = computed(() =>
   Array.from(new Set(files.value.map(f => f.type)))
 )
@@ -40,6 +43,26 @@ const filteredFiles = computed(() =>
   })
 )
 
+/* ===== statistics ===== */
+const totalFiles = computed(() => filteredFiles.value.length)
+
+const totalSize = computed(() =>
+  filteredFiles.value.reduce((sum, f) => sum + f.size, 0)
+)
+
+const imageCount = computed(() =>
+  filteredFiles.value.filter(f => f.type.startsWith('image/')).length
+)
+
+const pdfCount = computed(() =>
+  filteredFiles.value.filter(f => f.type === 'application/pdf').length
+)
+
+const otherCount = computed(() =>
+  filteredFiles.value.length - imageCount.value - pdfCount.value
+)
+
+/* ===== actions ===== */
 function onFilesSelected(e) {
   const arr = Array.from(e.target.files)
   const now = Date.now()
@@ -66,6 +89,7 @@ function downloadFile(file) {
   alert(`Загрузка файла: ${file.name}`)
 }
 
+/* ===== helpers ===== */
 function humanSize(bytes) {
   if (bytes < 1024) return bytes + ' B'
   const units = ['KB', 'MB', 'GB', 'TB']
@@ -100,6 +124,7 @@ function fileSymbol(type) {
       class="max-w-6xl mx-auto shadow-lg rounded-2xl p-6"
       :class="darkMode ? 'bg-gray-800' : 'bg-white'"
     >
+      <!-- HEADER -->
       <header class="flex flex-col sm:flex-row justify-between gap-4 mb-6">
         <div>
           <h1 class="text-2xl font-semibold">File Manager</h1>
@@ -114,27 +139,19 @@ function fileSymbol(type) {
             Добавить
           </label>
 
-
-          <select
-            v-model="viewMode"
-            class="border rounded px-2"
-            :class="formClass"
-          >
+          <select v-model="viewMode" class="border rounded px-2" :class="formClass">
             <option value="cards">Карточки</option>
             <option value="table">Таблица</option>
           </select>
 
-          <button
-            class="border px-3 py-2 rounded"
-            @click="darkMode = !darkMode"
-          >
+          <button class="border px-3 py-2 rounded" @click="darkMode = !darkMode">
             {{ darkMode ? 'Светлая тема' : 'Тёмная тема' }}
           </button>
         </div>
       </header>
 
+      <!-- FILTERS -->
       <section class="mb-4 flex gap-3">
-
         <input
           v-model="search"
           type="text"
@@ -142,18 +159,13 @@ function fileSymbol(type) {
           class="flex-1 p-2 border rounded"
           :class="formClass"
         />
-
-
-        <select
-          v-model="typeFilter"
-          class="p-2 border rounded"
-          :class="formClass"
-        >
+        <select v-model="typeFilter" class="p-2 border rounded" :class="formClass">
           <option value="">Все типы</option>
           <option v-for="t in fileTypes" :key="t">{{ t }}</option>
         </select>
       </section>
 
+      <!-- CARDS -->
       <section v-if="viewMode === 'cards'">
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div
@@ -202,11 +214,7 @@ function fileSymbol(type) {
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="file in filteredFiles"
-              :key="file.id"
-              class="border-t"
-            >
+            <tr v-for="file in filteredFiles" :key="file.id" class="border-t">
               <td class="p-2">{{ file.name }}</td>
               <td class="p-2">{{ humanSize(file.size) }}</td>
               <td class="p-2">{{ formattedDate(file.createdAt) }}</td>
@@ -220,12 +228,21 @@ function fileSymbol(type) {
         </table>
       </section>
 
+      <!-- EMPTY -->
       <div v-if="filteredFiles.length === 0" class="text-center text-gray-500 py-8">
         Файлы не найдены
       </div>
 
-      <footer class="mt-6 text-sm text-gray-400">
-        Локальный файловый менеджер (без API)
+      <!-- STATISTICS -->
+      <footer
+        class="mt-8 p-4 rounded-lg border text-sm flex flex-wrap gap-6 justify-between"
+        :class="darkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-gray-50'"
+      >
+        <div>📄 Файлов: <b>{{ totalFiles }}</b></div>
+        <div>💾 Размер: <b>{{ humanSize(totalSize) }}</b></div>
+        <div>🖼️ Изображения: <b>{{ imageCount }}</b></div>
+        <div>📄 PDF: <b>{{ pdfCount }}</b></div>
+        <div>📦 Прочие: <b>{{ otherCount }}</b></div>
       </footer>
     </div>
   </div>
