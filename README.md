@@ -1,4 +1,7 @@
-# Vue 3 File Manager 
+# Всем привет!
+В данном документе предоставлена самая 
+свежая и актуальная информация к текущему проекту. Прочитав и ознакомившись с ним вы сможете определить, как его запустить, использовать и эксплуатировать по своему желанию. Желаем удачи!
+# Vue File Manager 
 
 [![Vue](https://img.shields.io/badge/Vue-3.5-green)](https://vuejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-blue)](https://vitejs.dev/)
