@@ -127,7 +127,7 @@ export default defineConfig({ plugins: [vue()] })
 ```
 
 
-Авторы : Anorochka and MoLODOu
+Авторы : Anorochka and MoLODOu (Туровец Александр и Чемышев Семен)
 
 Создано с: Vue 3, Vite, Tailwind CSS
 
