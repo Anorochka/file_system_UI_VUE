@@ -128,7 +128,6 @@ function handleDragOver(e) {
 }
 
 function handleDragLeave(e) {
-  // Проверяем, что курсор действительно вышел из области перетаскивания
   if (!e.currentTarget.contains(e.relatedTarget)) {
     isDragging.value = false
   }
@@ -202,7 +201,6 @@ function fileSymbol(type) {
     @dragleave="handleDragLeave"
     @drop.prevent="handleDrop"
   >
-    <!-- Overlay для Drag & Drop -->
     <div 
       v-if="isDragging"
       class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm transition-all duration-300"
@@ -232,7 +230,6 @@ function fileSymbol(type) {
         </div>
 
         <div class="flex gap-3 flex-wrap">
-          <!-- Кнопка "Добавить" с файловым инпутом -->
           <label class="bg-blue-600 text-white px-3 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2">
             <input type="file" class="hidden" multiple @change="onFilesSelected" />
             <span>📁</span>
@@ -261,7 +258,6 @@ function fileSymbol(type) {
         </div>
       </header>
 
-      <!-- Drag & Drop Hint -->
       <div 
         class="mb-6 p-4 border-2 border-dashed rounded-xl text-center transition-all duration-300 hover:border-blue-400 cursor-pointer"
         :class="darkMode ? 'border-gray-600 hover:border-blue-400' : 'border-gray-300 hover:border-blue-400'"
@@ -377,7 +373,6 @@ select:focus {
   outline: none !important;
 }
 
-/* Стили для улучшения UX при перетаскивании */
 body.dragging {
   cursor: grabbing !important;
 }
@@ -389,10 +384,8 @@ body.dragging {
 </style>
 
 <script>
-// Добавляем обработчики для всего документа для лучшего UX
 export default {
   mounted() {
-    // Предотвращаем стандартное поведение браузера при перетаскивании
     document.addEventListener('dragover', (e) => {
       e.preventDefault()
     }, false)
