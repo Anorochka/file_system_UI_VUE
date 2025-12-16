@@ -128,6 +128,7 @@ export default defineConfig({ plugins: [vue()] })
 
 
 Авторы : Anorochka and MoLODOu
+
 Создано с: Vue 3, Vite, Tailwind CSS
 
 
