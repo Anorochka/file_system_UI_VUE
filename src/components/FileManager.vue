@@ -135,6 +135,7 @@ function handleDragLeave(e) {
 
 function handleDrop(e) {
   e.preventDefault()
+  e.stopPropagation()
   isDragging.value = false
   
   const droppedFiles = Array.from(e.dataTransfer.files)
@@ -206,7 +207,7 @@ function fileSymbol(type) {
       class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm transition-all duration-300"
       @dragover.prevent
       @dragleave="handleDragLeave"
-      @drop.prevent="handleDrop"
+      @drop.prevent.stop="handleDrop"
     >
       <div class="bg-white dark:bg-gray-800 rounded-2xl p-10 max-w-md w-full mx-4 border-4 border-dashed border-blue-500/50 shadow-2xl">
         <div class="text-center">
