@@ -237,18 +237,18 @@ function fileSymbol(type) {
             <span>Добавить</span>
           </label>
 
-          <select v-model="viewMode" class="border rounded px-2 bg-white" :class="formClass">
+          <select v-model="viewMode" class="border rounded px-2 bg-white text-black">
             <option value="cards">Карточки</option>
             <option value="table">Таблица</option>
           </select>
 
-          <select v-model="sortBy" class="border rounded px-2 bg-white" :class="formClass">
+          <select v-model="sortBy" class="border rounded px-2 bg-white text-black">
             <option value="name">Имя</option>
             <option value="size">Размер</option>
             <option value="createdAt">Дата</option>
           </select>
 
-          <select v-model="sortDir" class="border rounded px-2 bg-white" :class="formClass">
+          <select v-model="sortDir" class="border rounded px-2 bg-white text-black">
             <option value="asc">↑</option>
             <option value="desc">↓</option>
           </select>
